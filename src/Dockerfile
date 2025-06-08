@@ -1,6 +1,6 @@
 FROM python
 
-WORKDIR /shorty .
+WORKDIR /shortie .
 
 COPY . .
 
