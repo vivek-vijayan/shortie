@@ -1,57 +1,12 @@
-import os
-import dotenv
-import asyncio
 import logging
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
+
+# Local imports
+from .algo import Environ
 
 # Configure basic logging
 logging.basicConfig(level=logging.INFO)
-
-class Environ:
-    """
-    A class to manage environment variables from .env file or OS environment.
-    """
-
-    def __init__(self) -> None:
-        """Initializes the environment object."""
-        self.env_loaded: bool = False
-
-    def load_from_dotenv(self, env_path: Optional[str] = None) -> bool:
-        """
-        Loads environment variables from a .env file.
-
-        Args:
-            env_path (str, optional): Path to .env file. Defaults to None.
-
-        Returns:
-            bool: True if loading succeeds.
-        """
-        try:
-            dotenv.load_dotenv(dotenv_path=env_path)
-            self.env_loaded = True
-            logging.info("[ENVIRON] Dotenv file loaded successfully.")
-            return True
-        except Exception as e:
-            logging.error(f"[ENVIRON] Failed to load dotenv: {e}")
-            return False
-
-    def get(self, key: str) -> str:
-        """
-        Retrieves an environment variable by key.
-
-        Args:
-            key (str): Environment variable key.
-
-        Returns:
-            str: Value of the environment variable or empty string if not found.
-        """
-        value = os.getenv(key)
-        if value:
-            return value
-        logging.warning(f"[ENVIRON] Environment variable '{key}' not found.")
-        return ""
-
 
 class MongoEngine:
     """
@@ -127,12 +82,38 @@ class MongoEngine:
             logging.error(f"[MONGO] Insertion failed: {e}")
             return False
 
+    async def is_url_present(self, original_url: str, collection_obj: AsyncIOMotorCollection) -> Dict[str, Any]:  # type: ignore
+        """
+        Function: is_url_present
+        Description:
+            Asynchronously checks if a given original URL already exists in the specified MongoDB collection.
+        Parameters:
+            original_url (str): The original long URL to be checked.
+            collection_obj (AsyncIOMotorCollection): The MongoDB collection object where the URLs are stored.
+        Returns:
+            dict: custom return value.
+        """
+        result = await collection_obj.find_one({"original_url": original_url}) # type: ignore
 
+        return {'exist' : result is not None, 'short_url' :  result.get("short_url") if result else ""} # type: ignore
 
-if __name__=="__main__":
-    # Testing purpose only
-    env = Environ()
-    env.load_from_dotenv()
-    m = MongoEngine(Environ()) # type: ignore
-    print(m.connect())
-    asyncio.run(m.insert_into_collection(data = {"data": "sample"}, collection_obj= m.get_collection("real_and_short_url_collection"))) # type: ignore
+    async def get_original_url_from_short_url(self, short_url: str, collection_obj: AsyncIOMotorCollection) -> Dict[str, Any]:  # type: ignore
+        """
+        Function: get_original_url_from_short_url
+        Description:
+            Asynchronously checks if a given original URL already exists in the specified MongoDB collection.
+        Parameters:
+            original_url (str): The original long URL to be checked.
+            collection_obj (AsyncIOMotorCollection): The MongoDB collection object where the URLs are stored.
+        Returns:
+            dict: custom return value.
+        """
+        print({"short_url": short_url})
+        result = await collection_obj.find_one({"short_url": short_url})  # type: ignore
+
+        print("Lookup result:", result)  # type: ignore # 🔍 Add this to debug
+
+        return {
+            'exist': result is not None,
+            'original_url': result.get("original_url", "") if result else "" # type: ignore
+        }

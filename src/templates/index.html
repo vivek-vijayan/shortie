@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shorter - URL Shortener</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>
+            < Shorty />
+        </h1>
+        <small>Convert long URLs into quick, shareable short links.</small>
+        <center>
+            <form method="post" action="/generate" style="width: 80%;">
+                <input type="text" name="org_url" placeholder="Enter your long URL here" required>
+                <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+                    </svg> </button>
+            </form>
+        </center>
+
+        <small style="color:#dddddd; font-size: 11px; padding-top: 40px;">version 1.0 (c) Developer : Vivek
+            Vijayan</small>
+    </div>
+
+</body>
+
+</html>
