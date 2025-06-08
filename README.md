@@ -2,7 +2,12 @@
 
 **Shortie** is a fast, minimal, and developer-friendly URL shortener built with **FastAPI**, **MongoDB**, and **Bloom Filters**. It provides a clean HTML interface and can be easily self-hosted — perfect for shortening long URLs or creating custom branded links for personal or internal use.
 
+### Homepage
+<img src="res/index_page.png" width=500px>
 
+
+### Shortened Page
+<img src="res/short_url_page.png" width=500px>
 
 ## 🚀 Features
 
