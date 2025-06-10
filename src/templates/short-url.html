@@ -15,13 +15,18 @@
         <h1>
             < Shortie />
         </h1>
-        <small>Your Shortened URL is ready!.</small>
+        <small >Your Shortened URL is ready!.</small>
         <center>
             <br>
-            <h2 class="url-dis">
-                <a href="{{short_url}}" style="text-decoration: none; color: aliceblue;">
-                    shortie.com/{{short_url}}
-                </a>
+            <small onclick="copyToClipboard()"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-copy" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                        </svg> Click to copy</small>
+            <h2 class="url-dis" onclick="copyToClipboard()">
+                <span style="text-decoration: none; color: aliceblue;">
+                    {{short_url}}
+                </span>
             </h2>
         </center>
 
@@ -30,5 +35,21 @@
     </div>
 
 </body>
+<script>
+
+    document.getElementById("domain").innerText = `${window.location.origin}`;
+
+    function copyToClipboard() {
+        const text = '{{short_url}}';
+        const fullUrl = `${window.location.origin}/${text}`;
+        navigator.clipboard.writeText(fullUrl)
+            .then(() => {
+                alert("ShortURL copied to clipboard!");
+            })
+            .catch(err => {
+                console.error("Failed to copy:", err);
+            });
+    }
+</script>
 
 </html>
